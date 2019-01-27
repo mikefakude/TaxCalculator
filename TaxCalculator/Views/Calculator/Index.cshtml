@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "Tax Calculator";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+{
+    <link href="~/Content/CustomStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/knockout-3.4.2.debug.js"></script>
+    <script src="~/Scripts/knockout-3.4.2.js"></script>
+    <script src="~/Scripts/KnockoutDefination.js"></script>
+}
+
+    <div id="body">
+        <h2>Calculating Tax</h2>
+        <table id="tax" data-bind="visible : Index().length > 0">
+            <thead>
+                <tr>
+                    <th style="display:none;">ID</th>
+                    <th>Date Time</th>
+                    <th>Postal Code</th>
+                    <th>Income</th>
+                    <th>Calculated Tax</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach:Index">
+                <tr>
+                    <td data-bind="visible : false, text : Id"></td>
+                    <td data-bind="text : DateTime"></td>
+                    <td data-bind="text : PostalCode"></td>
+                    <td data-bind="text : formatCurrently(TaxIncome)"></td>
+                    <td data-bind="text : formatCurrently(CalculatedValue)"></td>
+                    <td>
+                        <button data-bind="click : $root.edit">Edit</button>
+                        <button data-bind="click : $root.delete">Delete</button>
+                    </td>
+
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <hr />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <br />
+        <div style="border-top: solid 2px #282828; width: 430px; height: 10px"> </div>
+
+        <div data-bind="ifnot: Calculator()">
+            <div>
+                <h2>Add Income and Postal Code</h2>
+            </div>
+            <div>
+                <label for="name">Postal Code</label>
+                <input data-bind="value: $root.PostalCode" type="text" title="PostalCode" />
+            </div>
+            <br />
+            <div>
+                <label for="category">Income</label>
+                <input data-bind="value: $root.TaxIncome" type="text" title="TaxIncome" />
+            </div>
+            <br />
+            <div>
+                <button data-bind="click: $root.create">Save</button>
+                <button data-bind="click: $root.reset">Reset</button>
+
+            </div>
+        </div>
+
+        <div data-bind="if: Calculator">
+            <div>
+                <h2>Update Values</h2>
+            </div>
+            <div>
+                <label for="calculatorId" data-bind="visible: false">ID</label>
+                <label data-bind="value: Calculator().Id, visible: false"></label>
+
+            </div>
+            <div>
+                <label for="postalCode">Postal Code</label>
+                <input data-bind="value: Calculator().PostalCode" type="text" title="PostalCode" />
+            </div>
+            <br />
+            <div>
+                <label for="taxIncome">Income</label>
+                <input data-bind="value: Calculator().TaxIncome" type="text" title="TaxIncome" />
+            </div>
+            <br />
+            <div>
+                <button data-bind="click: $root.update">Update</button>
+                <button data-bind="click: $root.cancel">Cancel</button>
+
+            </div>
+        </div>
+    </div>
